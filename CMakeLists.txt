@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.12)
 include(FetchContent)
 
 FetchContent_Declare(ftxui
-        GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
+        GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI
         GIT_TAG v2.0.0
         )
 
