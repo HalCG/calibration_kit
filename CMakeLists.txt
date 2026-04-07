@@ -4,19 +4,27 @@ cmake_minimum_required (VERSION 3.12)
 
 include(FetchContent)
 
-FetchContent_Declare(ftxui
-        GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI
-        GIT_TAG v2.0.0
-        )
-
-set(FTXUI_BUILD_DOCS OFF)
-set(FTXUI_BUILD_EXAMPLES OFF)
-set(FTXUI_ENABLE_INSTALL OFF)
-
-FetchContent_GetProperties(ftxui)
-if(NOT ftxui_POPULATED)
-  FetchContent_Populate(ftxui)
+# Check if FTXUI has already been fetched and built locally
+if(EXISTS "${CMAKE_BINARY_DIR}/_deps/ftxui-src" AND EXISTS "${CMAKE_BINARY_DIR}/_deps/ftxui-build")
+  message(STATUS "FTXUI already fetched and built locally, skipping fetch.")
+  set(ftxui_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/ftxui-src")
+  set(ftxui_BINARY_DIR "${CMAKE_BINARY_DIR}/_deps/ftxui-build")
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
+else()
+  FetchContent_Declare(ftxui
+          GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI
+          GIT_TAG v2.0.0
+          )
+
+  set(FTXUI_BUILD_DOCS OFF)
+  set(FTXUI_BUILD_EXAMPLES OFF)
+  set(FTXUI_ENABLE_INSTALL OFF)
+
+  FetchContent_GetProperties(ftxui)
+  if(NOT ftxui_POPULATED)
+    FetchContent_Populate(ftxui)
+    add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
+  endif()
 endif()
 
 # ------------------------------------------------------------------------------
